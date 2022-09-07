@@ -9,12 +9,14 @@ CFLAGS = -Wall -g
 # ****************************************************
 # Targets needed to bring the executable up to date
 
-main: main.o fileManagement.o
-	$(CC) $(CFLAGS) -o main main.o fileManagement.o
+main: main.o FileManagement.o MatrixElement.o
+	$(CC) $(CFLAGS) -o main main.o FileManagement.o MatrixElement.o
 
 # The main.o target can be written more simply
 
-main.o: main.cpp fileManagement.h
+main.o: main.cpp FileManagement.h MatrixElement.h
 	$(CC) $(CFLAGS) -c main.cpp
 
-fileManagement.o: fileManagement.h
+FileManagement.o: FileManagement.h MatrixElement.h
+
+MatrixElement.o: MatrixElement.h

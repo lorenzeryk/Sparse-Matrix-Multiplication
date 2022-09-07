@@ -1,4 +1,4 @@
-#include "fileManagement.h"
+#include "FileManagement.h"
 void loadFile() {
     std::string fileName = "InputFiles/NLR.mtx";
     std::ifstream fileLoader;
@@ -13,7 +13,34 @@ void loadFile() {
     getMatrixInfo(numRows, numColumns, numNonZeros, matrixInfo);
 
     //TODO read rest of file
+    //use array of size numRows? too large of an array
+    //map? vector? hashmap?
+    //map key could be row number. would allow for empty rows to be negated. would need to search map each time?
+    //vector how store row number?
+    //hashmap
+    std::map<int, std::vector<MatrixElement>> matrix;
 
+    while (!fileLoader.eof()) {
+        int rowNumber, columnNumber;
+        fileLoader >> rowNumber >> columnNumber;
+        MatrixElement tempElement = MatrixElement(columnNumber);
+        if (rowNumber == 7361) {
+
+        }
+
+        //row already exists in map
+        if (matrix.count(rowNumber)) {
+            std::vector<MatrixElement> tempRow = matrix.at(rowNumber);
+            tempRow.push_back(tempElement);
+            matrix.at(rowNumber) = tempRow;
+        } else {
+            std::vector<MatrixElement> tempRow;
+            tempRow.push_back(tempElement);
+            matrix.emplace(rowNumber, tempRow);
+        }
+    }
+
+    std::vector<MatrixElement> test = matrix.at(7361);
     fileLoader.close();
 }
 
