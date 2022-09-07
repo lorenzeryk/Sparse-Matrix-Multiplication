@@ -3,6 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <map>
+#include "MatrixElement.h"
 
 void loadFile();
 std::string skipCommentedLines(std::ifstream &fileLoader);
