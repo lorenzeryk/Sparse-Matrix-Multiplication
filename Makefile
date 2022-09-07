@@ -1,10 +1,12 @@
 # Makefile for Writing Make Files Example
-
+#TODO update clean function to remove *.o
+#TODO create make run
 # *****************************************************
 # Variables to control Makefile operation
 
 CC = g++
 CFLAGS = -Wall -g
+TARGET=main
 
 # ****************************************************
 # Targets needed to bring the executable up to date
@@ -20,3 +22,7 @@ main.o: main.cpp FileManagement.h MatrixElement.h
 FileManagement.o: FileManagement.h MatrixElement.h
 
 MatrixElement.o: MatrixElement.h
+
+.PHONY: clean
+clean:
+	rm -f $(TARGET)

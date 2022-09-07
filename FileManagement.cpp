@@ -12,29 +12,13 @@ void loadFile() {
     std::string matrixInfo = skipCommentedLines(fileLoader);
     getMatrixInfo(numRows, numColumns, numNonZeros, matrixInfo);
 
-    //TODO read rest of file
-    //use array of size numRows? too large of an array
-    //map? vector? hashmap?
-    //map key could be row number. would allow for empty rows to be negated. would need to search map each time?
-    //vector how store row number?
-    //hashmap
-    std::map<int, std::vector<MatrixElement>> matrix;
+    std::map<int, std::vector<MatrixElement> > matrix;
 
     while (!fileLoader.eof()) {
+        srand(time(nullptr));
         int rowNumber, columnNumber;
         fileLoader >> rowNumber >> columnNumber;
-        MatrixElement tempElement = MatrixElement(columnNumber);
-
-        //row already exists in map
-        if (matrix.count(rowNumber)) {
-            std::vector<MatrixElement> tempRow = matrix.at(rowNumber);
-            tempRow.push_back(tempElement);
-            matrix.at(rowNumber) = tempRow;
-        } else {
-            std::vector<MatrixElement> tempRow;
-            tempRow.push_back(tempElement);
-            matrix.emplace(rowNumber, tempRow);
-        }
+        addElementToMatrix(rowNumber, columnNumber, matrix);
     }
 
     fileLoader.close();
@@ -64,4 +48,37 @@ void getMatrixInfo(int &numRows, int &numColumns, int &numNonZeros, std::string 
 
     currentIndex = currentLine.find(' ');
     numNonZeros = std::stoi(currentLine.substr(0, currentIndex));
+}
+
+void addElementToMatrix(int rowNumber, int columnNumber, std::map<int, std::vector<MatrixElement> > &matrix) {
+    MatrixElement tempElement = MatrixElement(columnNumber, generateRandomNumber());
+
+    //row already exists in map
+    if (matrix.count(rowNumber)) {
+        std::vector<MatrixElement> tempRow = matrix.at(rowNumber);
+        tempRow.push_back(tempElement);
+        matrix.at(rowNumber) = tempRow;
+    } else {
+        std::vector<MatrixElement> tempRow;
+        tempRow.push_back(tempElement);
+        matrix.emplace(rowNumber, tempRow);
+    }
+
+    //insert identical element at corresponding point above diagonal. flip row and column
+    tempElement.setColumnNumber(rowNumber);
+    if (matrix.count(columnNumber)) {
+        std::vector<MatrixElement> tempRow = matrix.at(columnNumber);
+        tempRow.push_back(tempElement);
+        matrix.at(columnNumber) = tempRow;
+    } else {
+        std::vector<MatrixElement> tempRow;
+        tempRow.push_back(tempElement);
+        matrix.emplace(columnNumber, tempRow);
+    }
+}
+
+double generateRandomNumber() {
+    double lower = 0.1;
+    double upper = 4.9;
+    return (rand() / (double)RAND_MAX) * (upper - lower) + lower;
 }
