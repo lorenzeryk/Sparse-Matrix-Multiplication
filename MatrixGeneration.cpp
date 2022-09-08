@@ -1,5 +1,4 @@
 #include "MatrixGeneration.h"
-//TODO fix random number generation. Matrix has same value for every element. Vector does not
 std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows) {
     auto start = std::chrono::high_resolution_clock::now();
     std::string fileName = "InputFiles/NLR.mtx";
@@ -16,8 +15,9 @@ std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows) {
 
     std::map<int, std::vector<MatrixElement>> matrix;
 
+    srand(time(0));
+
     while (!fileLoader.eof()) {
-        srand(time(nullptr));
         int rowNumber, columnNumber;
         fileLoader >> rowNumber >> columnNumber;
         addElementToMatrix(rowNumber, columnNumber, matrix);

@@ -1,5 +1,5 @@
 # Makefile for Writing Make Files Example
-#TODO create make run
+#TODO create make run that processes each input
 # *****************************************************
 # Variables to control Makefile operation
 

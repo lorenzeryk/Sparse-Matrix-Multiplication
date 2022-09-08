@@ -1,6 +1,5 @@
 #include "MatrixGeneration.h"
 #include "MatrixMultiplication.h"
-//TODO automatically process each input on make run command
 
 int main() {
     int numRows;
