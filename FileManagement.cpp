@@ -1,5 +1,5 @@
 #include "FileManagement.h"
-void loadFile() {
+std::map<int, std::vector<MatrixElement>> loadFile() {
     std::string fileName = "InputFiles/NLR.mtx";
     std::ifstream fileLoader;
     fileLoader.open(fileName);
@@ -12,7 +12,7 @@ void loadFile() {
     std::string matrixInfo = skipCommentedLines(fileLoader);
     getMatrixInfo(numRows, numColumns, numNonZeros, matrixInfo);
 
-    std::map<int, std::vector<MatrixElement> > matrix;
+    std::map<int, std::vector<MatrixElement>> matrix;
 
     while (!fileLoader.eof()) {
         srand(time(nullptr));
@@ -22,6 +22,7 @@ void loadFile() {
     }
 
     fileLoader.close();
+    return matrix;
 }
 
 std::string skipCommentedLines(std::ifstream &fileLoader) {

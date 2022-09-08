@@ -7,7 +7,7 @@
 #include <map>
 #include "MatrixElement.h"
 
-void loadFile();
+std::map<int, std::vector<MatrixElement>> loadFile();
 std::string skipCommentedLines(std::ifstream &fileLoader);
 void getMatrixInfo(int &numRows, int &numColumns, int &numNonZeros, std::string currentLine);
 double generateRandomNumber();
