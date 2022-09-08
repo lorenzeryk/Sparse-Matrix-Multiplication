@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <chrono>
 #include "MatrixElement.h"
 
 std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows);

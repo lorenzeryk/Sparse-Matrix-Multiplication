@@ -17,7 +17,6 @@ std::vector<double> multiply(std::map<int, std::vector<MatrixElement>> &matrix, 
     //TODO add multithreading
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::cout << "Beginning multiplication\n";
     std::vector<double> result(numRows);
 
     std::map<int, std::vector<MatrixElement>>::iterator it;
@@ -27,10 +26,9 @@ std::vector<double> multiply(std::map<int, std::vector<MatrixElement>> &matrix, 
         result.at(currentRow-1) = rowResult;
     }
 
-    std::cout << "Finished multiplication\n";
     auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-    std::cout << "The execution time was: " << duration.count() << " ns\n";
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+    std::cout << "Multiplication execution time was: " << duration.count() << " ms\n";
     return result;
 }
 

@@ -1,6 +1,7 @@
 #include "MatrixGeneration.h"
 //TODO fix random number generation. Matrix has same value for every element
 std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows) {
+    auto start = std::chrono::high_resolution_clock::now();
     std::string fileName = "InputFiles/NLR.mtx";
     std::ifstream fileLoader;
     fileLoader.open(fileName);
@@ -23,6 +24,9 @@ std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows) {
     }
 
     fileLoader.close();
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+    std::cout << "Matrix generation execution time was: " << duration.count() << " s\n";
     return matrix;
 }
 
