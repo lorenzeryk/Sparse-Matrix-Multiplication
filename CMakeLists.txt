@@ -3,4 +3,4 @@ project(CSCI580_Sparse_Matrix_Multiplication)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(CSCI580_Sparse_Matrix_Multiplication main.cpp MatrixElement.cpp MatrixElement.h FileManagement.cpp FileManagement.h)
+add_executable(CSCI580_Sparse_Matrix_Multiplication main.cpp MatrixElement.cpp MatrixElement.h MatrixGeneration.cpp MatrixGeneration.h)

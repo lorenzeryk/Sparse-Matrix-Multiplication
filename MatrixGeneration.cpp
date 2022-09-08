@@ -1,5 +1,6 @@
-#include "FileManagement.h"
-void loadFile() {
+#include "MatrixGeneration.h"
+//TODO fix random number generation. Matrix has same value for every element
+std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows) {
     std::string fileName = "InputFiles/NLR.mtx";
     std::ifstream fileLoader;
     fileLoader.open(fileName);
@@ -8,11 +9,11 @@ void loadFile() {
         std::cout << fileName << " failed to open\n";
     }
 
-    int numRows, numColumns, numNonZeros;
+    int numColumns, numNonZeros;
     std::string matrixInfo = skipCommentedLines(fileLoader);
     getMatrixInfo(numRows, numColumns, numNonZeros, matrixInfo);
 
-    std::map<int, std::vector<MatrixElement> > matrix;
+    std::map<int, std::vector<MatrixElement>> matrix;
 
     while (!fileLoader.eof()) {
         srand(time(nullptr));
@@ -22,6 +23,18 @@ void loadFile() {
     }
 
     fileLoader.close();
+    return matrix;
+}
+
+std::vector<double> generateVector(int &numRows) {
+    std::vector<double> multVector;
+    multVector.reserve(numRows);
+
+    for (int i = 0; i < numRows; i++) {
+        multVector.push_back(generateRandomNumber());
+    }
+
+    return multVector;
 }
 
 std::string skipCommentedLines(std::ifstream &fileLoader) {

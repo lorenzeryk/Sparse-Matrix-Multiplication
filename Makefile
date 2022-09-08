@@ -11,18 +11,19 @@ TARGET=main
 # ****************************************************
 # Targets needed to bring the executable up to date
 
-main: main.o FileManagement.o MatrixElement.o
-	$(CC) $(CFLAGS) -o main main.o FileManagement.o MatrixElement.o
+main: main.o MatrixGeneration.o MatrixElement.o
+	$(CC) $(CFLAGS) -o main main.o MatrixGeneration.o MatrixElement.o
 
 # The main.o target can be written more simply
 
-main.o: main.cpp FileManagement.h MatrixElement.h
+main.o: main.cpp MatrixGeneration.h MatrixElement.h
 	$(CC) $(CFLAGS) -c main.cpp
 
-FileManagement.o: FileManagement.h MatrixElement.h
+MatrixGeneration.o: MatrixGeneration.h MatrixElement.h
 
 MatrixElement.o: MatrixElement.h
 
 .PHONY: clean
 clean:
 	rm -f $(TARGET)
+	rm -f *.o
