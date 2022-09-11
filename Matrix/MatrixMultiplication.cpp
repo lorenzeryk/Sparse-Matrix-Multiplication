@@ -8,7 +8,7 @@ std::vector<double> multiply(std::map<int, std::vector<MatrixElement>> &matrix, 
     std::map<int, std::vector<MatrixElement>>::iterator it;
     for (it = matrix.begin(); it != matrix.end(); it++) {
         int currentRow = it->first;
-        double rowResult = multiplyRow(it->second, multVector.at(currentRow-1));
+        double rowResult = multiplyRow(it->second, multVector);
         result.at(currentRow-1) = rowResult;
     }
 
@@ -18,9 +18,10 @@ std::vector<double> multiply(std::map<int, std::vector<MatrixElement>> &matrix, 
     return result;
 }
 
-double multiplyRow(std::vector<MatrixElement> &row, double vectorValue) {
+double multiplyRow(std::vector<MatrixElement> &row, std::vector<double> &multVector) {
     double sum = 0.0;
     for (int i = 0; i < row.size(); i++) {
+        double vectorValue = multVector.at(row.at(i).getColumnNumber()-1);
         sum += row.at(i).getValue()*vectorValue;
     }
     return sum;

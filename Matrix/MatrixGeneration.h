@@ -8,7 +8,7 @@
 #include <chrono>
 #include "MatrixElement.h"
 
-std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows);
+std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numColumns);
 std::string skipCommentedLines(std::ifstream &fileLoader);
 void getMatrixInfo(int &numRows, int &numColumns, int &numNonZeros, std::string currentLine);
 double generateRandomNumber();
