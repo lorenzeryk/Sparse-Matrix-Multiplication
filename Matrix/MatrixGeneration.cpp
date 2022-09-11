@@ -68,7 +68,7 @@ void getMatrixInfo(int &numRows, int &numColumns, int &numNonZeros, std::string 
 }
 
 void addElementToMatrix(int rowNumber, int columnNumber, std::map<int, std::vector<MatrixElement> > &matrix) {
-    MatrixElement tempElement = MatrixElement(columnNumber, generateRandomNumber());
+    MatrixElement tempElement = MatrixElement(rowNumber, columnNumber, generateRandomNumber());
 
     //row already exists in map
     if (matrix.count(rowNumber)) {
@@ -83,6 +83,7 @@ void addElementToMatrix(int rowNumber, int columnNumber, std::map<int, std::vect
 
     //insert identical element at corresponding point above diagonal. flip row and column
     tempElement.setColumnNumber(rowNumber);
+    tempElement.setRowNumber(columnNumber);
     if (matrix.count(columnNumber)) {
         std::vector<MatrixElement> tempRow = matrix.at(columnNumber);
         tempRow.push_back(tempElement);
