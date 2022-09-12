@@ -1,5 +1,5 @@
 #include "MatrixGeneration.h"
-std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numColumns) {
+std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numColumns, int &numNonZeros) {
     auto start = std::chrono::high_resolution_clock::now();
     std::string fileName = "InputFiles/delaunay_n19.mtx";
     std::ifstream fileLoader;
@@ -10,7 +10,6 @@ std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numC
         exit(-1);
     }
 
-    int numNonZeros;
     std::string matrixInfo = skipCommentedLines(fileLoader);
     getMatrixInfo(numRows, numColumns, numNonZeros, matrixInfo);
 

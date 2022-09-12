@@ -1,40 +1,47 @@
 #include "Verification.h"
 
-bool verifySolution(std::map<int, std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, std::vector<double> &result, int &numRows, int &numColumns) {
-    alglib::real_2d_array refMatrix = generateRefMatrix(matrix, numRows, numColumns);
+bool verifySolution(std::map<int, std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, std::vector<double> &result, int &numRows, int &numColumns, int &numNonZeros) {
+    alglib::setglobalthreading(alglib::parallel);
+
     alglib::real_1d_array refVector = generateRefVector(multVector, numRows);
+
     alglib::real_1d_array refSolution;
-    refSolution.setlength(numRows);
+    refSolution.setlength(numRows); //preallocate reference solution
+
+    alglib::sparsematrix refMatrix;
+    alglib::sparsecreate(numRows, numColumns, numNonZeros, refMatrix); //preallocate with nonZeros space
+    generateRefMatrix(matrix, refMatrix, numRows, numColumns);
+    alglib::sparseconverttocrs(refMatrix); //convert to crs format for compatibility with multiplication function
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::cout << "Starting ref multiplication\n";
-    alglib::rmatrixgemv(numRows, numColumns, 1.0, refMatrix, 0, 0, 0, refVector, 0, 0, refSolution, 0);
-    std::cout << "Finished ref multiplication\n";
+    try
+    {
+        alglib::sparsemv(refMatrix, refVector, refSolution);
+    }
+    catch(alglib::ap_error e)
+    {
+        printf("error msg: %s\n", e.msg.c_str());
+    }
 
     auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-
-    std::cout << "Reference multiplication execution time was: " << duration.count() << " microseconds\n";
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+    std::cout << "Reference multiplication execution time was: " << duration.count() << " ms\n";
     bool match = compareSolutions(result, refSolution);
     return match;
 }
 
-alglib::real_2d_array generateRefMatrix(std::map<int, std::vector<MatrixElement>> &matrix, int &numRows, int &numColumns) {
-    alglib::real_2d_array refMatrix;
-
-    refMatrix.setlength(numRows, numColumns);
-
+void generateRefMatrix(std::map<int, std::vector<MatrixElement>> &matrix, alglib::sparsematrix &refMatrix, int &numRows, int &numColumns) {
+    //iterate through entire matrix and add each point
     std::map<int, std::vector<MatrixElement>>::iterator it;
     for (it = matrix.begin(); it != matrix.end(); it++) {
         std::vector<MatrixElement> tempRowVector = it->second;
         for (int i = 0; i < tempRowVector.size(); i++) {
             int currentRow = tempRowVector.at(i).getRowNumber();
             int currentColumn = tempRowVector.at(i).getColumnNumber();
-            refMatrix[currentRow-1][currentColumn-1] = tempRowVector.at(i).getValue();
+            alglib::sparseadd(refMatrix, currentRow-1, currentColumn-1, tempRowVector.at(i).getValue());
         }
     }
-    return refMatrix;
 }
 
 alglib::real_1d_array generateRefVector(std::vector<double> &multVector, int numRows) {
@@ -50,8 +57,11 @@ bool compareSolutions(std::vector<double> &result, alglib::real_1d_array &refRes
     bool match = true;
     for (int i = 0; i < result.size(); i++) {
         if (result.at(i) != refResult[i]) {
-            std::cout << "Row number: " << i << " Solution: " << result.at(i) << " Ref: " << refResult[i] << "\n";
-            match = false;
+            double epsilon = 0.0000000001; //check if doubles are very close
+            if (abs((result.at(i)-refResult[i])) > epsilon) {
+                std::cout << "Row number: " << i << " Solution: " << result.at(i) << " Ref: " << refResult[i] << "\n";
+                match = false;
+            }
         }
     }
     return match;
