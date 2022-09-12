@@ -4,10 +4,16 @@
 
 int main() {
     int numRows, numColumns, numNonZeros;
-    std::map<int, std::vector<MatrixElement>> matrix = generateMatrix(numRows, numColumns, numNonZeros);
-    std::vector<double> multVector = generateVector(numRows);
-    std::vector<double> result = multiply(matrix, multVector, numRows);
-    //TODO add reference implementation and perform verification
+    std::map<int, std::vector<MatrixElement>> matrix;
+    generateMatrix(numRows, numColumns, numNonZeros, matrix);
+
+    std::vector<double> multVector;
+    multVector.reserve(numRows);
+    generateVector(numRows, multVector);
+
+    std::vector<double> result(numRows);
+    multiply(matrix, multVector, numRows, result);
+
     bool correct = verifySolution(matrix, multVector, result, numRows, numColumns, numNonZeros);
     if (!correct) {
         std::cout << "Incorrect calculation\n";

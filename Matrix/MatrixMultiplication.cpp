@@ -1,9 +1,7 @@
 #include "MatrixMultiplication.h"
-std::vector<double> multiply(std::map<int, std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, int numRows) {
+std::vector<double> multiply(std::map<int, std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, int numRows, std::vector<double> &result) {
     //TODO add multithreading
     auto start = std::chrono::high_resolution_clock::now();
-
-    std::vector<double> result(numRows);
 
     std::map<int, std::vector<MatrixElement>>::iterator it;
     for (it = matrix.begin(); it != matrix.end(); it++) {

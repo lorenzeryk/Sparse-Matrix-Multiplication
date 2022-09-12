@@ -1,7 +1,7 @@
 #include "MatrixGeneration.h"
-std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numColumns, int &numNonZeros) {
+std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numColumns, int &numNonZeros, std::map<int, std::vector<MatrixElement>> &matrix) {
     auto start = std::chrono::high_resolution_clock::now();
-    std::string fileName = "InputFiles/delaunay_n19.mtx";
+    std::string fileName = "InputFiles/channel-500x100x100-b050.mtx";
     std::ifstream fileLoader;
     fileLoader.open(fileName);
 
@@ -12,8 +12,6 @@ std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numC
 
     std::string matrixInfo = skipCommentedLines(fileLoader);
     getMatrixInfo(numRows, numColumns, numNonZeros, matrixInfo);
-
-    std::map<int, std::vector<MatrixElement>> matrix;
 
     srand(time(0));
 
@@ -30,10 +28,7 @@ std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numC
     return matrix;
 }
 
-std::vector<double> generateVector(int &numRows) {
-    std::vector<double> multVector;
-    multVector.reserve(numRows);
-
+std::vector<double> generateVector(int &numRows, std::vector<double> &multVector) {
     for (int i = 0; i < numRows; i++) {
         multVector.push_back(generateRandomNumber());
     }
