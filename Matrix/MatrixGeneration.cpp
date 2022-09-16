@@ -1,7 +1,7 @@
 #include "MatrixGeneration.h"
-std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numColumns, int &numNonZeros, std::map<int, std::vector<MatrixElement>> &matrix) {
+void generateMatrix(int &numRows, int &numColumns, int &numNonZeros, std::vector<std::vector<MatrixElement>> &matrix) {
     auto start = std::chrono::high_resolution_clock::now();
-    std::string fileName = "InputFiles/delaunay_n19.mtx";
+    std::string fileName = "InputFiles/NLR.mtx";
     std::ifstream fileLoader;
     fileLoader.open(fileName);
 
@@ -12,6 +12,7 @@ std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numC
 
     std::string matrixInfo = skipCommentedLines(fileLoader);
     getMatrixInfo(numRows, numColumns, numNonZeros, matrixInfo);
+    matrix = std::vector<std::vector<MatrixElement>> (numRows);
 
     srand(time(0));
 
@@ -25,15 +26,12 @@ std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numC
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
     std::cout << "Matrix generation execution time was: " << duration.count() << " s\n";
-    return matrix;
 }
 
-std::vector<double> generateVector(int &numRows, std::vector<double> &multVector) {
+void generateVector(int &numRows, std::vector<double> &multVector) {
     for (int i = 0; i < numRows; i++) {
         multVector.push_back(generateRandomNumber());
     }
-
-    return multVector;
 }
 
 std::string skipCommentedLines(std::ifstream &fileLoader) {
@@ -62,32 +60,16 @@ void getMatrixInfo(int &numRows, int &numColumns, int &numNonZeros, std::string 
     numNonZeros = std::stoi(currentLine.substr(0, currentIndex));
 }
 
-void addElementToMatrix(int rowNumber, int columnNumber, std::map<int, std::vector<MatrixElement> > &matrix) {
+void addElementToMatrix(int rowNumber, int columnNumber, std::vector<std::vector<MatrixElement> > &matrix) {
     MatrixElement tempElement = MatrixElement(rowNumber, columnNumber, generateRandomNumber());
 
     //row already exists in map
-    if (matrix.count(rowNumber)) {
-        std::vector<MatrixElement> tempRow = matrix.at(rowNumber);
-        tempRow.push_back(tempElement);
-        matrix.at(rowNumber) = tempRow;
-    } else {
-        std::vector<MatrixElement> tempRow;
-        tempRow.push_back(tempElement);
-        matrix.emplace(rowNumber, tempRow);
-    }
+    matrix.at(rowNumber-1).push_back(tempElement);
 
     //insert identical element at corresponding point above diagonal. flip row and column
     tempElement.setColumnNumber(rowNumber);
     tempElement.setRowNumber(columnNumber);
-    if (matrix.count(columnNumber)) {
-        std::vector<MatrixElement> tempRow = matrix.at(columnNumber);
-        tempRow.push_back(tempElement);
-        matrix.at(columnNumber) = tempRow;
-    } else {
-        std::vector<MatrixElement> tempRow;
-        tempRow.push_back(tempElement);
-        matrix.emplace(columnNumber, tempRow);
-    }
+    matrix.at(rowNumber-1).push_back(tempElement);
 }
 
 double generateRandomNumber() {
