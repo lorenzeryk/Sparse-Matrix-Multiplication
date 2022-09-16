@@ -4,10 +4,8 @@ void multiply(std::vector<std::vector<MatrixElement>> &matrix, std::vector<doubl
 
     #pragma omp parallel for shared(matrix, multVector, result) default(none)
     for (int i = 0; i < matrix.size(); i++) {
-        if (matrix.at(i).size() > 0) {
-            double rowResult = multiplyRow(matrix.at(i), multVector);
-            result.at(i) = rowResult;
-        }
+        double rowResult = multiplyRow(matrix.at(i), multVector);
+        result.at(i) = rowResult;
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
