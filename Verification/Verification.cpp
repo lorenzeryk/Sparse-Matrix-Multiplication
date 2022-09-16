@@ -1,6 +1,6 @@
 #include "Verification.h"
 
-bool verifySolution(std::map<int, std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, std::vector<double> &result, int &numRows, int &numColumns, int &numNonZeros) {
+bool verifySolution(std::vector<std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, std::vector<double> &result, int &numRows, int &numColumns, int &numNonZeros) {
     alglib::setglobalthreading(alglib::parallel);
 
     alglib::real_1d_array refVector = generateRefVector(multVector, numRows);
@@ -31,15 +31,13 @@ bool verifySolution(std::map<int, std::vector<MatrixElement>> &matrix, std::vect
     return match;
 }
 
-void generateRefMatrix(std::map<int, std::vector<MatrixElement>> &matrix, alglib::sparsematrix &refMatrix, int &numRows, int &numColumns) {
+void generateRefMatrix(std::vector<std::vector<MatrixElement>> &matrix, alglib::sparsematrix &refMatrix, int &numRows, int &numColumns) {
     //iterate through entire matrix and add each point
     std::map<int, std::vector<MatrixElement>>::iterator it;
-    for (it = matrix.begin(); it != matrix.end(); it++) {
-        std::vector<MatrixElement> tempRowVector = it->second;
-        for (int i = 0; i < tempRowVector.size(); i++) {
-            int currentRow = tempRowVector.at(i).getRowNumber();
-            int currentColumn = tempRowVector.at(i).getColumnNumber();
-            alglib::sparseadd(refMatrix, currentRow-1, currentColumn-1, tempRowVector.at(i).getValue());
+    for (int i = 0; i < matrix.size(); i++) {
+        for (int j = 0; j < matrix.at(i).size(); j++) {
+            int currentColumn = matrix.at(i).at(j).getColumnNumber();
+            alglib::sparseadd(refMatrix, i, currentColumn-1, matrix.at(i).at(j).getValue());
         }
     }
 }
