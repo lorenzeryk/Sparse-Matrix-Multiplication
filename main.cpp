@@ -4,7 +4,7 @@
 
 int main() {
     int numRows, numColumns, numNonZeros;
-    std::map<int, std::vector<MatrixElement>> matrix;
+    std::vector<std::vector<MatrixElement>> matrix;
     generateMatrix(numRows, numColumns, numNonZeros, matrix);
 
     std::vector<double> multVector;
