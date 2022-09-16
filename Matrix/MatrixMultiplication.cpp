@@ -1,11 +1,13 @@
 #include "MatrixMultiplication.h"
 void multiply(std::vector<std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, int numRows, std::vector<double> &result) {
-    //TODO add multithreading
     auto start = std::chrono::high_resolution_clock::now();
 
+    #pragma omp parallel for shared(matrix, multVector, result) default(none)
     for (int i = 0; i < matrix.size(); i++) {
-        double rowResult = multiplyRow(matrix.at(i), multVector);
-        result.at(i) = rowResult;
+        if (matrix.at(i).size() > 0) {
+            double rowResult = multiplyRow(matrix.at(i), multVector);
+            result.at(i) = rowResult;
+        }
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
