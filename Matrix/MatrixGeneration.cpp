@@ -1,7 +1,7 @@
 #include "MatrixGeneration.h"
 std::map<int, std::vector<MatrixElement>> generateMatrix(int &numRows, int &numColumns, int &numNonZeros, std::map<int, std::vector<MatrixElement>> &matrix) {
     auto start = std::chrono::high_resolution_clock::now();
-    std::string fileName = "InputFiles/channel-500x100x100-b050.mtx";
+    std::string fileName = "InputFiles/delaunay_n19.mtx";
     std::ifstream fileLoader;
     fileLoader.open(fileName);
 

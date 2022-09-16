@@ -3,11 +3,10 @@ std::vector<double> multiply(std::map<int, std::vector<MatrixElement>> &matrix, 
     //TODO add multithreading
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::map<int, std::vector<MatrixElement>>::iterator it;
-    for (it = matrix.begin(); it != matrix.end(); it++) {
+    for (std::map <int, std::vector < MatrixElement >> ::iterator it = matrix.begin(); it != matrix.end(); it++) {
         int currentRow = it->first;
         double rowResult = multiplyRow(it->second, multVector);
-        result.at(currentRow-1) = rowResult;
+        result.at(currentRow - 1) = rowResult;
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
