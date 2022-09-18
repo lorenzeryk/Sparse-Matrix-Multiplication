@@ -2,10 +2,10 @@
 #include "Matrix/MatrixMultiplication.h"
 #include "Verification/Verification.h"
 
-int main() {
+int main(int argc, char *argv[]) {
     int numRows, numColumns, numNonZeros;
     std::vector<std::vector<MatrixElement>> matrix;
-    generateMatrix(numRows, numColumns, numNonZeros, matrix);
+    generateMatrix(numRows, numColumns, numNonZeros, matrix, argv[1]);
 
     std::vector<double> multVector;
     multVector.reserve(numRows);
