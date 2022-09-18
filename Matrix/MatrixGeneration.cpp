@@ -1,6 +1,5 @@
 #include "MatrixGeneration.h"
 void generateMatrix(int &numRows, int &numColumns, int &numNonZeros, std::vector<std::vector<MatrixElement>> &matrix, std::string fileName) {
-    auto start = std::chrono::high_resolution_clock::now();
     std::ifstream fileLoader;
     fileLoader.open(fileName);
 
@@ -22,9 +21,6 @@ void generateMatrix(int &numRows, int &numColumns, int &numNonZeros, std::vector
     }
 
     fileLoader.close();
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
-    std::cout << "Matrix generation execution time was: " << duration.count() << " s\n";
 }
 
 void generateVector(int &numRows, std::vector<double> &multVector) {

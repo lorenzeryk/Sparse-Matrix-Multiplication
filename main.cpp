@@ -12,13 +12,13 @@ int main(int argc, char *argv[]) {
     generateVector(numRows, multVector);
 
     std::vector<double> result(numRows);
-    multiply(matrix, multVector, numRows, result);
+    int executionTime = multiply(matrix, multVector, numRows, result);
+
+    std::cout << argv[1] << " multiplication execution time was: " << executionTime << " microseconds\n";
 
     bool correct = verifySolution(matrix, multVector, result, numRows, numColumns, numNonZeros);
     if (!correct) {
         std::cout << "Incorrect calculation\n";
-    } else {
-        std::cout << "Correct results\n";
     }
     return 0;
 }

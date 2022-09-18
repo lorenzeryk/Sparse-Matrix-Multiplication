@@ -1,5 +1,5 @@
 #include "MatrixMultiplication.h"
-void multiply(std::vector<std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, int numRows, std::vector<double> &result) {
+int multiply(std::vector<std::vector<MatrixElement>> &matrix, std::vector<double> &multVector, int numRows, std::vector<double> &result) {
     auto start = std::chrono::high_resolution_clock::now();
 
     #pragma omp parallel for shared(matrix, multVector, result) default(none)
@@ -9,8 +9,7 @@ void multiply(std::vector<std::vector<MatrixElement>> &matrix, std::vector<doubl
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "Multiplication execution time was: " << duration.count() << " microseconds\n";
+    return std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count();
 }
 
 double multiplyRow(std::vector<MatrixElement> &row, std::vector<double> &multVector) {

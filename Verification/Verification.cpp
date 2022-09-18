@@ -13,8 +13,6 @@ bool verifySolution(std::vector<std::vector<MatrixElement>> &matrix, std::vector
     generateRefMatrix(matrix, refMatrix, numRows, numColumns);
     alglib::sparseconverttocrs(refMatrix); //convert to crs format for compatibility with multiplication function
 
-    auto start = std::chrono::high_resolution_clock::now();
-
     try
     {
         alglib::sparsemv(refMatrix, refVector, refSolution);
@@ -24,9 +22,6 @@ bool verifySolution(std::vector<std::vector<MatrixElement>> &matrix, std::vector
         printf("error msg: %s\n", e.msg.c_str());
     }
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "Reference multiplication execution time was: " << duration.count() << " microseconds\n";
     bool match = compareSolutions(result, refSolution);
     return match;
 }

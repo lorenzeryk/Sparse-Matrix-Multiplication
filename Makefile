@@ -1,13 +1,15 @@
+SHELL := /usr/bin/bash
 src = 	$(wildcard *.cpp) \
 		$(wildcard Matrix/*.cpp) \
 		$(wildcard Verification/*.cpp) \
 		$(wildcard Verification/ALGLIB/*.cpp)
 obj = $(src:.cpp=.o)
 dep = $(obj:.o=.d)  # one dependency file for each source
+INPUTS = 	$(wildcard *.mtx)
 
 CC = g++
 CFLAGS = -std=c++11 -fopenmp -O3 -MMD    # option to generate a .d file during compilation
-LDFLAGS = -lGL -lglut -lpng -lz -lm
+
 TARGET=main
 
 $(TARGET): $(obj)
@@ -28,4 +30,4 @@ cleandep:
 
 .PHONY: run
 run:
-	for file in ./*.mtx; do ./main file; done
+	@for FILE in ./*.mtx;do ./main $$FILE; done
