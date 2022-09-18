@@ -1,7 +1,6 @@
 #ifndef CSCI580_SPARSE_MATRIX_MULTIPLICATION_MATRIXMULTIPLICATION_H
 #define CSCI580_SPARSE_MATRIX_MULTIPLICATION_MATRIXMULTIPLICATION_H
 #include <vector>
-#include <map>
 #include <iostream>
 #include <chrono>
 #include "MatrixElement.h"

@@ -12,10 +12,10 @@ CFLAGS = -std=c++11 -fopenmp -O3 -MMD    # option to generate a .d file during c
 TARGET=main
 
 $(TARGET): $(obj)
-	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 %.o: %.cpp
-	@$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 -include $(dep)   # include all dep files in the makefile
 
@@ -29,4 +29,4 @@ cleandep:
 
 .PHONY: run
 run:
-	@for FILE in ./*.mtx;do ./main $$FILE; done
+	@for FILE in *.mtx; do echo "Performing multiplication with input file $$FILE" && ./main $$FILE; done

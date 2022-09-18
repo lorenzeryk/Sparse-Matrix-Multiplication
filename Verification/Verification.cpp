@@ -28,7 +28,6 @@ bool verifySolution(std::vector<std::vector<MatrixElement>> &matrix, std::vector
 
 void generateRefMatrix(std::vector<std::vector<MatrixElement>> &matrix, alglib::sparsematrix &refMatrix, int &numRows, int &numColumns) {
     //iterate through entire matrix and add each point
-    std::map<int, std::vector<MatrixElement>>::iterator it;
     for (int i = 0; i < matrix.size(); i++) {
         for (int j = 0; j < matrix.at(i).size(); j++) {
             int currentColumn = matrix.at(i).at(j).getColumnNumber();

@@ -21,10 +21,6 @@ int MatrixElement::getColumnNumber() {
     return columnNumber;
 }
 
-int MatrixElement::getRowNumber() {
-    return rowNumber;
-}
-
 double MatrixElement::getValue() {
     return value;
 }

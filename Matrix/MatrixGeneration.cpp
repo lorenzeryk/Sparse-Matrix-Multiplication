@@ -10,7 +10,7 @@ void generateMatrix(int &numRows, int &numColumns, int &numNonZeros, std::vector
 
     std::string matrixInfo = skipCommentedLines(fileLoader);
     getMatrixInfo(numRows, numColumns, numNonZeros, matrixInfo);
-    matrix = std::vector<std::vector<MatrixElement>> (numRows);
+    matrix = std::vector<std::vector<MatrixElement>> (numRows); //preallocate matrix to the size of the number of rows
 
     srand(time(0));
 
@@ -43,6 +43,7 @@ std::string skipCommentedLines(std::ifstream &fileLoader) {
 }
 
 void getMatrixInfo(int &numRows, int &numColumns, int &numNonZeros, std::string currentLine) {
+    //break line into numRows, numColumns, and currentIndex
     int currentIndex = currentLine.find(' ');
     numRows = std::stoi(currentLine.substr(0, currentIndex));
     currentLine.erase(0, currentIndex+1);
@@ -58,7 +59,7 @@ void getMatrixInfo(int &numRows, int &numColumns, int &numNonZeros, std::string 
 void addElementToMatrix(int rowNumber, int columnNumber, std::vector<std::vector<MatrixElement> > &matrix) {
     MatrixElement tempElement = MatrixElement(rowNumber, columnNumber, generateRandomNumber());
 
-    //row already exists in map
+    //add element
     matrix.at(rowNumber-1).push_back(tempElement);
 
     //insert identical element at corresponding point above diagonal. flip row and column

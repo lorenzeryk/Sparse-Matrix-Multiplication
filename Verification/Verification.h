@@ -2,7 +2,6 @@
 #define CSCI580_SPARSE_MATRIX_MULTIPLICATION_VERIFICATION_H
 
 #include <iostream>
-#include <map>
 #include <chrono>
 #include "../Matrix/MatrixElement.h"
 #include "ALGLIB/linalg.h"
