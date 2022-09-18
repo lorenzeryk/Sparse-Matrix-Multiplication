@@ -9,7 +9,7 @@ int multiply(std::vector<std::vector<MatrixElement>> &matrix, std::vector<double
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
-    return std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
 }
 
 double multiplyRow(std::vector<MatrixElement> &row, std::vector<double> &multVector) {

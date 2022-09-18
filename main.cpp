@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     std::vector<double> result(numRows);
     int executionTime = multiply(matrix, multVector, numRows, result);
 
-    std::cout << argv[1] << " multiplication execution time was: " << executionTime << " microseconds\n";
+    std::cout << argv[1] << " multiplication execution time was: " << executionTime << " milliseconds\n";
 
     bool correct = verifySolution(matrix, multVector, result, numRows, numColumns, numNonZeros);
     if (!correct) {
