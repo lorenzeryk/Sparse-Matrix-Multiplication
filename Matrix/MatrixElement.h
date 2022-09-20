@@ -5,16 +5,13 @@
 class MatrixElement {
 public:
     MatrixElement();
-    MatrixElement(int rowNumber, int columnNumber);
-    MatrixElement(int rowNumber, int columnNumber, double value);
+    MatrixElement(int columnNumber, double value);
     int getColumnNumber();
     double getValue();
     void setColumnNumber(int columnNumber);
-    void setRowNumber(int rowNumber);
     void setValue(double value);
 private:
     int columnNumber;
-    int rowNumber;
     double value;
 };
 

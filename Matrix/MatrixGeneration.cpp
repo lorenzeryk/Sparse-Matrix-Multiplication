@@ -57,14 +57,13 @@ void getMatrixInfo(int &numRows, int &numColumns, int &numNonZeros, std::string 
 }
 
 void addElementToMatrix(int rowNumber, int columnNumber, std::vector<std::vector<MatrixElement> > &matrix) {
-    MatrixElement tempElement = MatrixElement(rowNumber, columnNumber, generateRandomNumber());
+    MatrixElement tempElement = MatrixElement(columnNumber, generateRandomNumber());
 
     //add element
     matrix.at(rowNumber-1).push_back(tempElement);
 
     //insert identical element at corresponding point above diagonal. flip row and column
     tempElement.setColumnNumber(rowNumber);
-    tempElement.setRowNumber(columnNumber);
     matrix.at(rowNumber-1).push_back(tempElement);
 }
 
