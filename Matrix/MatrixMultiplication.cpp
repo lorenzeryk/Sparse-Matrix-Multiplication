@@ -5,8 +5,7 @@ int multiply(std::vector<std::vector<MatrixElement>> &matrix, std::vector<double
     //parallel loop for calculating each row of output vector
     #pragma omp parallel for shared(matrix, multVector, result) default(none)
     for (int i = 0; i < matrix.size(); i++) {
-        double rowResult = multiplyRow(matrix.at(i), multVector);
-        result.at(i) = rowResult;
+        result.at(i) = multiplyRow(matrix.at(i), multVector);
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
